@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arrun Ultra Suite</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <h1>Arrun Ultra Medical + Utility Suite</h1>
+    <div class="top-actions">
+      <select id="themeSelect">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="contrast">High Contrast</option>
+        <option value="ultrahd">Ultra-HD</option>
+      </select>
+      <button id="logoutBtn" class="ghost">Logout</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <button data-tab="bmi" class="active">BMI Dashboard</button>
+      <button data-tab="dateTools">Date & Age Tools</button>
+      <button data-tab="calculators">Calculator Suite</button>
+      <button data-tab="assets">Asset Management</button>
+      <button data-tab="support">Support & Contact</button>
+    </aside>
+
+    <section class="content">
+      <section id="authGate" class="card">
+        <h2>Secure Login</h2>
+        <p>Demo credentials: <strong>admin / admin123</strong></p>
+        <form id="loginForm" class="grid two">
+          <label>Username <input required name="username" value="admin" /></label>
+          <label>Password <input required name="password" type="password" value="admin123" /></label>
+          <button>Sign In</button>
+        </form>
+      </section>
+
+      <div id="appPanels" class="hidden">
+        <section id="bmi" class="panel card active">
+          <h2>Advanced BMI Calculator (Adult & Pediatric)</h2>
+          <form id="bmiForm" class="grid three">
+            <label>Patient Type
+              <select name="patientType">
+                <option value="adult">Adult</option>
+                <option value="pediatric">Pediatric</option>
+              </select>
+            </label>
+            <label>Sex
+              <select name="sex"><option>male</option><option>female</option></select>
+            </label>
+            <label>Date of Birth <input type="date" name="dob" required /></label>
+            <label>Height (cm) <input type="number" name="height" min="50" max="250" required /></label>
+            <label>Weight (kg) <input type="number" name="weight" min="2" max="300" required /></label>
+            <label>Visit Date <input type="date" name="visitDate" required /></label>
+            <button>Calculate BMI</button>
+          </form>
+          <div id="bmiOutput" class="result-grid"></div>
+          <canvas id="bmiChart"></canvas>
+        </section>
+
+        <section id="dateTools" class="panel card">
+          <h2>Comprehensive Date & Age Tools</h2>
+          <form id="dateDiffForm" class="grid three">
+            <label>Start Date <input type="date" name="start" required /></label>
+            <label>End Date <input type="date" name="end" required /></label>
+            <label>Projection Days (+/-) <input type="number" name="projection" value="30"/></label>
+            <button>Run Date Analysis</button>
+          </form>
+          <div id="dateOutput" class="result-grid"></div>
+        </section>
+
+        <section id="calculators" class="panel card">
+          <h2>Multi-Purpose Calculator Suite + Notes</h2>
+          <div class="grid two">
+            <div>
+              <h3>Standard/Scientific</h3>
+              <input id="expr" placeholder="e.g. sin(0.5)+2^3" />
+              <button id="evalExpr">Evaluate</button>
+              <p id="exprResult"></p>
+
+              <h3>Programming</h3>
+              <input id="progVal" type="number" placeholder="Integer" />
+              <button id="progConvert">Convert DEC/BIN/HEX</button>
+              <p id="progResult"></p>
+
+              <h3>Vector</h3>
+              <input id="vecA" placeholder="1,2,3" /><input id="vecB" placeholder="4,5,6" />
+              <button id="vectorCalc">Dot + Magnitudes</button>
+              <p id="vectorResult"></p>
+
+              <h3>Matrix (2x2)</h3>
+              <input id="m1" placeholder="1,2,3,4" /><input id="m2" placeholder="5,6,7,8" />
+              <button id="matrixCalc">Multiply</button>
+              <p id="matrixResult"></p>
+
+              <h3>Financial</h3>
+              <input id="pmtPrincipal" type="number" placeholder="Principal" />
+              <input id="pmtRate" type="number" placeholder="Annual Rate %" />
+              <input id="pmtYears" type="number" placeholder="Years" />
+              <button id="financialCalc">Monthly EMI</button>
+              <p id="financialResult"></p>
+
+              <h3>Unit + Currency Converter</h3>
+              <input id="kmInput" type="number" placeholder="KM" /><button id="kmConvert">KM to Miles</button>
+              <p id="unitResult"></p>
+              <input id="usdInput" type="number" placeholder="USD" /><button id="currencyConvert">USD to EUR</button>
+              <p id="currencyResult"></p>
+            </div>
+            <div>
+              <h3>Graphing</h3>
+              <canvas id="graphCanvas"></canvas>
+              <h3>Microsoft-style Notes</h3>
+              <textarea id="notes" rows="18" placeholder="Write calculations and observations..."></textarea>
+            </div>
+          </div>
+        </section>
+
+        <section id="assets" class="panel card">
+          <h2>Comprehensive Asset Management System</h2>
+          <form id="assetForm" class="grid three">
+            <label>Name <input name="name" required /></label>
+            <label>Category <input name="category" required /></label>
+            <label>Tags (comma) <input name="tags" /></label>
+            <label>Value <input name="value" type="number" min="0" required /></label>
+            <label>Purchase Date <input name="purchaseDate" type="date" required /></label>
+            <label>Lifespan Years <input name="lifespanYears" type="number" min="1" required /></label>
+            <label>Location <input name="location" /></label>
+            <button>Add Asset</button>
+          </form>
+          <button id="exportCsv" class="ghost">Export CSV</button>
+          <div id="assetSummary" class="result-grid"></div>
+          <table id="assetTable">
+            <thead><tr><th>Name</th><th>Category</th><th>Value</th><th>NBV</th><th>Actions</th></tr></thead>
+            <tbody></tbody>
+          </table>
+          <canvas id="assetChart"></canvas>
+        </section>
+
+        <section id="support" class="panel card">
+          <h2>Support & Contact Us</h2>
+          <div class="support-layout">
+            <nav class="toc">
+              <h3>Table of Contents</h3>
+              <a href="#doc-overview">Platform Overview</a>
+              <a href="#doc-bmi">BMI Module Guide</a>
+              <a href="#doc-calcs">Calculator Guide</a>
+              <a href="#doc-assets">Asset Workflow</a>
+              <a href="#doc-faq">FAQ</a>
+              <a href="#doc-contact">Contact Form</a>
+            </nav>
+            <article class="doc">
+              <h3 id="doc-overview">Platform Overview</h3>
+              <p>This application combines medical analytics, date intelligence, multi-calculator workflows, secure asset management, and configurable dashboards in one modern interface.</p>
+              <h3 id="doc-bmi">BMI Module Guide</h3>
+              <p>Enter patient demographics and anthropometrics. Adult logic uses WHO ranges; pediatric mode approximates CDC percentile interpretation with age and sex-aware reference curves and ICD coding hints.</p>
+              <h3 id="doc-calcs">Calculator Guide</h3>
+              <p>Use expression evaluator, programming base conversion, vector/matrix operations, financial EMI, unit conversion, and online currency conversion data.</p>
+              <h3 id="doc-assets">Asset Workflow</h3>
+              <p>Create assets, tag them, monitor depreciation and net book values, then export reports for accounting and audits.</p>
+              <h3 id="doc-faq">FAQ</h3>
+              <p><strong>Q:</strong> How secure is data? <strong>A:</strong> Session-based authentication, rate limiting, and HTTP headers are enabled server-side.<br/><strong>Q:</strong> Can reports be exported? <strong>A:</strong> Yes, CSV export is available in asset dashboard.</p>
+              <h3 id="doc-contact">Contact Form</h3>
+              <form id="contactForm" class="grid two">
+                <label>Name <input required name="name"/></label>
+                <label>Email <input required type="email" name="email"/></label>
+                <label class="full">Subject <input required name="subject"/></label>
+                <label class="full">Message <textarea name="message" required rows="5"></textarea></label>
+                <button>Submit Support Request</button>
+              </form>
+              <p id="contactStatus"></p>
+            </article>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="left">Version: v2.0.0-ultra</div>
+    <div class="center">© 2026 Arrun Suite · <a href="#">Terms & Conditions</a> · <a href="#">Privacy Policy</a> · <a href="#">Legal</a></div>
+    <div class="right"><a href="#">About Us</a> · <a href="#support">Support</a></div>
+  </footer>
+
+  <div id="cookieConsent" class="cookie hidden">
+    This site uses cookies for secure sessions and analytics.
+    <button id="acceptCookies">Thanks and Accept Cookies</button>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
